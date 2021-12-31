@@ -1,8 +1,7 @@
 import 'dotenv/config';
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
-import { readFile } from "fs/promises"
-import { readCommandsRecursive } from '../src/util';
+import { readCommandsRecursive } from '../bot/src/util';
 
 const TOKEN = process.env.BOT_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
