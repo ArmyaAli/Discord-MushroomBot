@@ -11,7 +11,7 @@
     "main": "./bot/src/bot.ts",
     "scripts": {
         "dev": "nodemon",
-        "bot-config": "ts-node bot/scripts/deploy.ts",
+        "bot-config": "ts-node scripts/config_discord_portal.ts",
         "lavalink": "java -jar lavalink-server/Lavalink.jar"
     },
     "dependencies": {
