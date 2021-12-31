@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
-import { readCommandsRecursive } from '../bot/src/util';
+import { readCommandsRecursive } from '../src/util';
 
 const TOKEN = process.env.BOT_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -18,11 +18,11 @@ if (TOKEN && CLIENT_ID && GUILD_ID) {
         try {
             readCommandsRecursive(commandPath, commandFiles);
 
-            commandFiles = commandFiles.filter(file => file.endsWith('.ts'));
+            commandFiles = commandFiles.filter(file => file.endsWith('.ts') || file.endsWith('.js'));
             console.log(commandFiles)
             for (const filePath of commandFiles) {
                 const command = await import(`..\\${filePath}`);
-                commands.push(command.default.data.toJSON());
+                commands.push(command.default.toJSON());
             }
         } catch (error) {
             console.error(error);
