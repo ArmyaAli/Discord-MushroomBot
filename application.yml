@@ -42,7 +42,7 @@ logging:
   file:
     max-history: 30
     max-size: 1GB
-  path: ./logs/
+  path: ./lavalink-server/logs/
 
   level:
     root: INFO
