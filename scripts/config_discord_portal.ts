@@ -19,10 +19,11 @@ if (TOKEN && CLIENT_ID && GUILD_ID) {
             readCommandsRecursive(commandPath, commandFiles);
 
             commandFiles = commandFiles.filter(file => file.endsWith('.ts') || file.endsWith('.js'));
-            console.log(commandFiles)
             for (const filePath of commandFiles) {
                 const command = await import(`..\\${filePath}`);
-                commands.push(command.default.toJSON());
+                if(command?.data)
+                    commands.push(command?.data?.toJSON());
+                
             }
         } catch (error) {
             console.error(error);
@@ -38,7 +39,6 @@ if (TOKEN && CLIENT_ID && GUILD_ID) {
                     Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands },
                 );
             }
-
             console.log('Successfully reloaded application (/) commands.');
         } catch (error) {
             console.error(error);
