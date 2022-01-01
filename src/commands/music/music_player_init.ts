@@ -1,4 +1,5 @@
-import { Manager, Client } from "../../config";
+import { Message, MessageActionRow, MessageButton } from "discord.js";
+import { Manager, Client, Commands } from "../../config";
 
 Manager.on("nodeConnect", node => console.log(`Node ${node.options.identifier} connected`));
 
