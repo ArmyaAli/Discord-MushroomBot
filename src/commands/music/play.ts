@@ -1,11 +1,11 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Message } from 'discord.js';
-import { Manager as _Manager } from 'erela.js'
-import { musicCommandsChecks } from './music_player_util';
+import { Manager } from '../../config';
+import { musicCommandsChecks, populateQueue } from './music_player_util';
 
 const command = {
     data: new SlashCommandBuilder().setName('play').setDescription("This will play a song"),
-    async run(message: Message, Manager: _Manager, args: String[]) {    // Does the guild exist 
+    async run(message: Message, args: String[]) {    
         if (!message.guild)
             return;
         if (!musicCommandsChecks(message, args))
@@ -15,14 +15,33 @@ const command = {
             message.reply("You must give me a URL or a search term.");
             return false;
         }
-
         const query = args.join(" ");
-
+        
         try {
             let res = await Manager.search(query, message.author);
-            if (res.loadType === "LOAD_FAILED") throw res.exception;
-            if (res.loadType === "PLAYLIST_LOADED") throw { message: "Playlists are not supported with this command." };
-            if (res?.loadType === "NO_MATCHES") message.reply("there was no tracks found with that query.");
+            
+            switch (res.loadType) {
+                case "LOAD_FAILED": 
+                throw res.exception;
+                case "NO_MATCHES":
+                    message.reply("there was no tracks found with that query.");
+                    return
+                    case "PLAYLIST_LOADED": // Create the player 
+                    const player = Manager.create({
+                        guild: message?.guild.id,
+                        voiceChannel: message?.member?.voice?.channel?.id,
+                        textChannel: message?.channel?.id,
+                    });
+                    const track = res.tracks[0];
+                    if(track) {
+                        player.connect();
+                        player.play(track);
+                        await message.reply(`Now playing ${track.title}.`);
+                    }
+
+                    populateQueue(message, player, res.tracks);
+                    return;
+            }
 
             // Create the player 
             const player = Manager.create({
@@ -37,7 +56,7 @@ const command = {
             if (res) {
                 player.queue.add(res.tracks[0]);
             }
-
+            
             // Checks if the client should play the track if it's the first one added
             if (!player.playing && !player.paused && !player.queue.size) {
                 player.play()
