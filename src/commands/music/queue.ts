@@ -1,11 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Message } from 'discord.js';
 import { Manager as _Manager } from 'erela.js'
+import { Manager } from '../../config';
 import { musicCommandsChecks } from './music_player_util';
 
 const command = {
     data: new SlashCommandBuilder().setName('queue').setDescription("This will return the the top 10 songs in the music Queue"),
-    async run(message: Message, Manager: _Manager, args: String[]) {
+    async run(message: Message, args: String[]) {
         if (!message.guild)
             return;
         if (!musicCommandsChecks(message, args))
