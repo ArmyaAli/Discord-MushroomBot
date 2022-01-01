@@ -1,4 +1,4 @@
-import { Client, Manager, Commands, BOT_TOKEN } from "./config";
+import { Client, Manager, Commands, BOT_TOKEN, BOT_PREFIX } from "./config";
 
 Client.on("raw", (d) => Manager.updateVoiceState(d));
 
@@ -8,7 +8,7 @@ Client.on('ready', () => {
 });
 
 Client.on("messageCreate", async message => {
-    if (!message.content.startsWith("=") || !message.guild || message.author.bot) return;
+    if (!message.content.startsWith(BOT_PREFIX) || !message.guild || message.author.bot) return;
     const [command, ...args] = message.content.slice(1).split(/\s+/g);
     const c = (await Commands)?.get(command)
     if (c)
