@@ -30,9 +30,6 @@ export const Manager = new _Manager({
             clientSecret
         })
     ],
-    nodes: [{
-        host: "127.0.0.1", // Optional if Lavalink is local
-    },],
     send(id, payload) {
         const guild = Client.guilds.cache.get(id);
         if (guild) guild.shard.send(payload);
