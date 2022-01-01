@@ -10,11 +10,11 @@ interface botCommand {
     run: (message: Message, args: String[]) => void;
 }
 
-export const BOT_TOKEN = process.env.BOT_TOKEN;
-
 const clientID = process.env.SPOTIFY_CLIENT_ID || ""; // clientID from your Spotify app
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET || ""; // clientSecret from your Spotify app
 
+export const BOT_TOKEN = process.env.BOT_TOKEN;
+export const BOT_PREFIX = "=";
 export const Client = new Discord.Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -31,8 +31,8 @@ export const Manager = new _Manager({
         })
     ],
     nodes: [{
-            host: "127.0.0.1", // Optional if Lavalink is local
-        },],
+        host: "127.0.0.1", // Optional if Lavalink is local
+    },],
     send(id, payload) {
         const guild = Client.guilds.cache.get(id);
         if (guild) guild.shard.send(payload);
@@ -51,7 +51,12 @@ export const Commands = (async () => {
 
         for (const filePath of commandFiles) {
             const command = await import(filePath.replace("src\\", ".\\"));
-            await commands.set(command?.default?.data?.name, command?.default);
+            const name = command?.default?.data?.name;
+            const commandBody = command?.default;
+            
+            if (name && commandBody) {
+                await commands.set(name, commandBody);
+            }
         }
 
         return commands;
@@ -61,6 +66,6 @@ export const Commands = (async () => {
 })();
 
 export const Guilds = (async () => {
-    console.log(await Client.guilds.fetch());
+    // console.log(await Client.guilds.fetch());
 })();
 
