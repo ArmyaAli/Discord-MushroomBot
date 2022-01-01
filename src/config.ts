@@ -1,12 +1,19 @@
+import "dotenv/config";
 import { SlashCommandBuilder } from '@discordjs/builders';
 import Discord, { Collection, Intents, Message } from 'discord.js'
 import { Manager as _Manager } from 'erela.js'
 import { readCommandsRecursive } from './util';
+import Spotify from 'erela.js-spotify';
 
 interface botCommand {
     data: SlashCommandBuilder,
     run: (message: Message, args: String[]) => void;
 }
+
+export const BOT_TOKEN = process.env.BOT_TOKEN;
+
+const clientID = process.env.SPOTIFY_CLIENT_ID || ""; // clientID from your Spotify app
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET || ""; // clientSecret from your Spotify app
 
 export const Client = new Discord.Client({
     intents: [
@@ -17,11 +24,15 @@ export const Client = new Discord.Client({
 });
 
 export const Manager = new _Manager({
-    nodes: [
-        {
-            host: "127.0.0.1", // Optional if Lavalink is local
-        },
+    plugins: [
+        new Spotify({
+            clientID,
+            clientSecret
+        })
     ],
+    nodes: [{
+            host: "127.0.0.1", // Optional if Lavalink is local
+        },],
     send(id, payload) {
         const guild = Client.guilds.cache.get(id);
         if (guild) guild.shard.send(payload);
@@ -32,7 +43,7 @@ export const Manager = new _Manager({
 export const Commands = (async () => {
     const commandPath = "./src/commands/";
     const commands = new Collection<string, botCommand>();
-    
+
     let commandFiles: string[] = [];
     try {
         readCommandsRecursive(commandPath, commandFiles);
@@ -42,7 +53,7 @@ export const Commands = (async () => {
             const command = await import(filePath.replace("src\\", ".\\"));
             await commands.set(command?.default?.data?.name, command?.default);
         }
-        
+
         return commands;
     } catch (error) {
         console.error(error);
