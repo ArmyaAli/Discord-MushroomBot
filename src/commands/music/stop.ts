@@ -1,11 +1,12 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Message } from 'discord.js';
 import { Manager as _Manager } from 'erela.js'
+import { Manager } from '../../config';
 import { musicCommandsChecks } from './music_player_util';
 
 const command = {
     data: new SlashCommandBuilder().setName('stop').setDescription("This will stop the music player"),
-    async run(message: Message, Manager: _Manager, args: String[]) {
+    async run(message: Message, args: String[]) {
         if (!message.guild)
             return;
         if (!musicCommandsChecks(message, args))
