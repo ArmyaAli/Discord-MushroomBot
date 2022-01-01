@@ -1,10 +1,11 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { Manager as _Manager } from 'erela.js'
 import { Message } from 'discord.js';
+import { Manager } from '../../config';
 
 const command = {
     data: new SlashCommandBuilder().setName('resume').setDescription("This will resume the current track"),
-    async run(message: Message, Manager: _Manager, args: String[]) {
+    async run(message: Message, args: String[]) {
         if (!message.guild)
             return;
         // Are you in a voice Channel
