@@ -1,6 +1,4 @@
-import "dotenv/config"
-import { Message } from 'discord.js'
-import { Client, Manager, Commands } from "./config";
+import { Client, Manager, Commands, BOT_TOKEN } from "./config";
 
 Client.on("raw", (d) => Manager.updateVoiceState(d));
 
@@ -19,4 +17,4 @@ Client.on("messageCreate", async message => {
 
 
 
-Client.login(process.env.BOT_TOKEN);
+Client.login(BOT_TOKEN);
