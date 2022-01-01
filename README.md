@@ -1,5 +1,8 @@
 # Mushroom Bot V2
 
+## Description
+Any cool functionality that I want, I will add :)
+
 ## Feature set
 ### An awesome music player!
     - play a song/playlist
@@ -12,8 +15,9 @@
     - stop the currently playing song
 - Supports youtube playlists 
 - Spotify playlist support
+- 
 ## Technologies used
-- Discord.js
-- Erela.js
-- Lavalink server node
+- Discord.js (v13.50)
+- Erela.js (Latest)
+- Lavalink server node (Latest)
 
