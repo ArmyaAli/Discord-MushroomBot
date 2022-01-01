@@ -11,7 +11,7 @@
     - view currently playing song
     - stop the currently playing song
 - Supports youtube playlists 
-- Spotify playlist support (Coming soon)
+- Spotify playlist support
 ## Technologies used
 - Discord.js
 - Erela.js
