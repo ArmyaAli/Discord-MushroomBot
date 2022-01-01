@@ -9,12 +9,14 @@ Client.on('ready', () => {
     console.log(`Logged in as ${Client?.user?.tag}`);
 });
 
-Client.on("messageCreate", async (message: Message) => {
+Client.on("messageCreate", async message => {
     if (!message.content.startsWith("=") || !message.guild || message.author.bot) return;
     const [command, ...args] = message.content.slice(1).split(/\s+/g);
     const c = (await Commands)?.get(command)
     if (c)
-        c.run(message, Manager, args);
+        c.run(message, args);
 });
+
+
 
 Client.login(process.env.BOT_TOKEN);
