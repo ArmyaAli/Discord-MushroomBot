@@ -28,7 +28,6 @@ const command = {
         for(let i = 0; i < player.queue.length && i < 10; ++i)
         {
             result += `${i+1}. ${player.queue[i].title}. Requester: ${player.queue[i]?.requester}\n`;
-            console.log(player.queue[i]);
         }
         message.reply(result);
     }
