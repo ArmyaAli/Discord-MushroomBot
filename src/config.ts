@@ -5,7 +5,7 @@ import { readCommandsRecursive } from './util';
 
 interface botCommand {
     data: SlashCommandBuilder,
-    run: (message: Message, Manager: _Manager, args: String[]) => void;
+    run: (message: Message, args: String[]) => void;
 }
 
 export const Client = new Discord.Client({
