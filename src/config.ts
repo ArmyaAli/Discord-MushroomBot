@@ -2,7 +2,7 @@ import "dotenv/config";
 import { SlashCommandBuilder } from '@discordjs/builders';
 import Discord, { Collection, Intents, Message } from 'discord.js'
 import { Manager as _Manager } from 'erela.js'
-import { readCommandsRecursive } from './util';
+import { readFileTree } from './util';
 import Spotify from 'erela.js-spotify';
 
 interface botCommand {
@@ -38,24 +38,21 @@ export const Manager = new _Manager({
 
 
 export const Commands = (async () => {
-    const commandPath = "./src/commands/";
     const commands = new Collection<string, botCommand>();
+    let commandFiles: string[] = []
 
-    let commandFiles: string[] = [];
     try {
-        readCommandsRecursive(commandPath, commandFiles);
-        commandFiles = commandFiles.filter(file => file.endsWith('.ts') || file.endsWith('.js'));
-
+        await readFileTree(commandFiles, "");
+        commandFiles = commandFiles.filter((path) => path.endsWith(".js") || path.endsWith(".ts"));
         for (const filePath of commandFiles) {
-            const command = await import(filePath.replace("src\\", ".\\"));
+            const command = await import(filePath);
             const name = command?.default?.data?.name;
             const commandBody = command?.default;
-            
+
             if (name && commandBody) {
                 await commands.set(name, commandBody);
             }
         }
-
         return commands;
     } catch (error) {
         console.error(error);
