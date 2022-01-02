@@ -12,7 +12,9 @@
     "scripts": {
         "dev": "nodemon",
         "bot-config": "ts-node scripts/config_discord_portal.ts",
-        "lavalink": "java -jar lavalink-server/Lavalink.jar"
+        "lavalink": "java -jar lavalink-server/Lavalink.jar",
+        "build": "tsc",
+        "clean": "rm -rf output/"
     },
     "dependencies": {
         "@discordjs/builders": "^0.11.0",
