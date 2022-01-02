@@ -14,7 +14,7 @@ const clientID = process.env.SPOTIFY_CLIENT_ID || ""; // clientID from your Spot
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET || ""; // clientSecret from your Spotify app
 
 export const BOT_TOKEN = process.env.BOT_TOKEN;
-export const BOT_PREFIX = "=";
+export const BOT_PREFIX = "!";
 export const Client = new Discord.Client({
     intents: [
         Intents.FLAGS.GUILDS,
