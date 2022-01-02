@@ -54,7 +54,7 @@ jobs:
         pm2 kill;
         npm run build;
         echo "Hello";
-        pm2 start java -- -jar lavalink-server/lavalink.jar;
+        pm2 start java -- -jar lavalink-server/Lavalink.jar;
         pm2 start output/src/bot.js;
         '
       env:
