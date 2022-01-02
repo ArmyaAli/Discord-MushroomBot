@@ -1,13 +1,16 @@
-import fs from "fs"
+import fs from "fs/promises"
 import path from "path";
 
 // recursivly walks a directory & all subdirs 
-export const readCommandsRecursive = (commandContext: string, commandFiles: string[]) => {
-    fs.readdirSync(commandContext).forEach((file) => {
-        const Absolute = path.join(commandContext, file);
-        if (fs.statSync(Absolute).isDirectory())
-            return readCommandsRecursive(Absolute, commandFiles);
-        else
-            return commandFiles.push(Absolute);
-    });
+
+export const readFileTree = async (commands: string[], node: string): Promise<void> => {
+  const context = `${path.dirname(__filename)}\\commands`;
+  const nodeList = await fs.readdir(`${context}\\${node}`, { withFileTypes: true });
+  for (const _node of nodeList) {
+    const fPath = path.join(`${__dirname}\\commands\\${node}`, _node.name);
+    if (_node.isFile()) {
+      commands.push(fPath);
+    } else
+      await readFileTree(commands, _node.name)
+  }
 }
