@@ -39,11 +39,9 @@ const command = {
                             player.connect();
                             player.play(track);
                             await message.reply(`Now playing ${track.title}.`);
-                            return;
                         }
                         populateQueue(message, player, res.tracks);
                     }
-
                     return;
             }
 
