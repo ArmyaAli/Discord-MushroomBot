@@ -6,7 +6,7 @@ import { musicCommandsChecks } from './music_player_util';
 
 const command = {
     data: new SlashCommandBuilder().setName('song').setDescription("Gives the user the current song player"),
-    async run(message: Message, args: String[]) {
+    async run(message: Message, args: string[]) {
         if (!message.guild)
             return;
         if (!musicCommandsChecks(message, args))
@@ -22,10 +22,7 @@ const command = {
             message.reply("I am not playing a song at the moment!");
             return;
         }
-
-        message.reply(`Current Song: ${player?.queue?.current?.title}`);
-
-
+        message.reply(`Current Song: ${player?.queue?.current?.title} - ${player?.queue?.current?.author}`);
     }
 }
 
