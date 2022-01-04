@@ -15,7 +15,7 @@ Any cool functionality that I want, I will add :)
     - stop the currently playing song
 - Supports youtube playlists 
 - Spotify playlist support
-- 
+
 ## Technologies used
 - Discord.js (v13.50)
 - Erela.js (Latest)
