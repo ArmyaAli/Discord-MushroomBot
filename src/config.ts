@@ -1,13 +1,14 @@
 import "dotenv/config";
 import { SlashCommandBuilder } from '@discordjs/builders';
-import Discord, { Collection, Intents, Message } from 'discord.js'
+import Discord, { Collection, Intents, Interaction, Message } from 'discord.js'
 import { Manager as _Manager } from 'erela.js'
 import { readFileTree } from './util';
 import Spotify from 'erela.js-spotify';
 
 interface botCommand {
     data: SlashCommandBuilder,
-    run: (message: Message, args: String[]) => void;
+    run: (message: Message, args: string[]) => void;
+    // run: (interaction: Interaction, args: String[]) => void;
 }
 
 const clientID = process.env.SPOTIFY_CLIENT_ID || ""; // clientID from your Spotify app
