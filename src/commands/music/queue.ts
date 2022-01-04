@@ -26,7 +26,7 @@ const command = {
 
         let result = `There are a total of ${player.queue.length} Queued up.\n`;
         for (let i = 0; i < player.queue.length && i < 10; ++i) {
-            result += `${i + 1}. ${player.queue[i].title}. Requester: ${player.queue[i]?.requester}\n`;
+            result += `${i + 1}. ${player.queue[i].title} - ${player.queue[i]?.author}. Requester: ${player.queue[i]?.requester}\n`;
         }
         message.reply(result);
     }
