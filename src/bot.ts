@@ -1,6 +1,8 @@
 import { Client, Manager, Commands, BOT_TOKEN, BOT_PREFIX } from "./config";
 
-Client.on("raw", (d) => Manager.updateVoiceState(d));
+Client.on("raw", (d) => {
+    Manager.updateVoiceState(d)
+});
 
 Client.on('ready', () => {
     Manager.init(Client?.user?.id);
@@ -15,6 +17,12 @@ Client.on("messageCreate", async message => {
         c.run(message, args);
 });
 
+Client.on('interactionCreate', async interaction => {
+    if (!interaction.isCommand()) return;
+
+    const { commandName } = interaction;
+    const c = (await Commands)?.get(commandName)
+});
 
 
 Client.login(BOT_TOKEN);
