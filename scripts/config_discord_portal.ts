@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
-import { readCommandsRecursive } from '../src/util';
+import { readFileTree } from '../src/util';
 
 const TOKEN = process.env.BOT_TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -12,34 +12,30 @@ if (TOKEN && CLIENT_ID && GUILD_ID) {
     const rest = new REST({ version: '9' }).setToken(TOKEN);
     const commands: string[] = [];
     let commandFiles: string[] = [];
-    const commandPath = "./src/commands";
-    
+
     (async () => {
         try {
-            readCommandsRecursive(commandPath, commandFiles);
+            await readFileTree(commandFiles, "");
 
             commandFiles = commandFiles.filter(file => file.endsWith('.ts') || file.endsWith('.js'));
+
             for (const filePath of commandFiles) {
-                const command = await import(`..\\${filePath}`);
-                if(command?.data)
-                    commands.push(command?.data?.toJSON());
-                
+                const command = await import(filePath);
+                if (command?.default?.data) {
+                    console.log(command?.default?.data)
+                    commands.push(command?.default?.data?.toJSON());
+                }
             }
-        } catch (error) {
-            console.error(error);
-        }
-    })();
-    
-    (async () => {
-        try {
-            console.log('Started refreshing application (/) commands.');
-            if(commands)
-            {
+
+            if (commands.length > 0) {
+                console.log('Started refreshing application (/) commands.');
+                console.log(commands);
                 await rest.put(
-                    Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commands },
-                );
+                    Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), 
+                    { body: commands },
+                ).then(res => console.log(res));
+                console.log('Successfully reloaded application (/) commands.');
             }
-            console.log('Successfully reloaded application (/) commands.');
         } catch (error) {
             console.error(error);
         }
