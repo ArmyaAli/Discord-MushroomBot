@@ -6,7 +6,7 @@ import { musicCommandsChecks } from './music_player_util';
 
 const command = {
     data: new SlashCommandBuilder().setName('shuffle').setDescription("Shuffles the music queue"),
-    async run(message: Message, args: String[]) {
+    async run(message: Message, args: string[]) {
         if (!message.guild)
             return;
         if (!musicCommandsChecks(message, args))

@@ -1,11 +1,11 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Message } from 'discord.js';
+import { Interaction, Message } from 'discord.js';
 import { Manager } from '../../config';
 import { musicCommandsChecks, populateQueue } from './music_player_util';
 
 const command = {
     data: new SlashCommandBuilder().setName('play').setDescription("This will play a song"),
-    async run(message: Message, args: String[]) {
+    async run(message: Message, args: string[]) {
         if (!message.guild)
             return;
         if (!musicCommandsChecks(message, args))
@@ -15,8 +15,8 @@ const command = {
             message.reply("You must give me a URL or a search term.");
             return false;
         }
-        const query = args.join(" ");
-
+        let query = args.join(" ").split('&')[0];
+        console.log(query)
         try {
             let res = await Manager.search(query, message.author);
 
@@ -32,15 +32,17 @@ const command = {
                         voiceChannel: message?.member?.voice?.channel?.id,
                         textChannel: message?.channel?.id,
                     });
+                    
                     const track = res.tracks[0];
 
                     if (track) {
                         if (!player.playing && !player.paused && !player.queue.size) {
                             player.connect();
                             player.play(track);
-                            await message.reply(`Now playing ${track.title}.`);
+                            populateQueue(message, player, res.tracks.slice(1));
+                        } else {
+                            populateQueue(message, player, res.tracks);
                         }
-                        populateQueue(message, player, res.tracks);
                     }
                     return;
             }
@@ -62,7 +64,6 @@ const command = {
             // Checks if the client should play the track if it's the first one added
             if (!player.playing && !player.paused && !player.queue.size) {
                 player.play()
-                message.reply(`Now playing ${res?.tracks[0]?.title}.`);
                 return
             }
 

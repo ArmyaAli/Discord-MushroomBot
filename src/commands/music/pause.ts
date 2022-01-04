@@ -5,7 +5,7 @@ import { Manager } from '../../config';
 
 const command = {
     data: new SlashCommandBuilder().setName('pause').setDescription("This will pause the currently playing song"),
-    async run(message: Message, args: String[]) {
+    async run(message: Message, args: string[]) {
         if (!message.guild)
             return;
         // Are you in a voice Channel

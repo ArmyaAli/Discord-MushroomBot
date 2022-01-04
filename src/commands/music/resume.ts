@@ -5,7 +5,7 @@ import { Manager } from '../../config';
 
 const command = {
     data: new SlashCommandBuilder().setName('resume').setDescription("This will resume the current track"),
-    async run(message: Message, args: String[]) {
+    async run(message: Message, args: string[]) {
         if (!message.guild)
             return;
         // Are you in a voice Channel
