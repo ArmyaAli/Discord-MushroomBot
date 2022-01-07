@@ -48,9 +48,9 @@ jobs:
       run: |
         ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT \
         '
+        bash -i -c 
+        "
         cd ~/dev/Discord-MushroomBot;
-        bash;
-        pwd;
         git pull;
         rm -rf node_modules;
         npm ci --production;
@@ -59,7 +59,7 @@ jobs:
         npm run build;
         pm2 start java -- -jar lavalink-server/Lavalink.jar;
         pm2 start output/src/bot.js;
-        '
+        "'
       env:
         PORT: ${{ secrets.SSH_PORT }}
         USER: ${{ secrets.USER }}
