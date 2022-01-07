@@ -40,8 +40,8 @@ jobs:
         ENV: ${{ secrets.ENV_FILE }}
     - name: Send .env file to PI
       run: |
-      echo key;
-      scp -o StrictHostKeyChecking=no -i key -P $PORT .env $USER@$ENDPOINT:~/dev/Discord-MushroomBot;
+        echo key
+        scp -o StrictHostKeyChecking=no -i key -P $PORT .env $USER@$ENDPOINT:~/dev/Discord-MushroomBot
       env:
         PORT: ${{ secrets.SSH_PORT }}
         USER: ${{ secrets.USER }}
