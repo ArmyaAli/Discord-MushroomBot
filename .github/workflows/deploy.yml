@@ -1,7 +1,7 @@
 name: Build Test Deploy
 on:
   push:
-    branches: [ main ]
+    branches: [ prod ]
 
 jobs:
   build:
@@ -48,12 +48,11 @@ jobs:
       run: |
         ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT \
         '
-        cd dev/Discord-MushroomBot;
+        cd ~/dev/Discord-MushroomBot;
         git pull;
         npm ci --production;
         pm2 kill;
         npm run build;
-        echo "Hello";
         pm2 start java -- -jar lavalink-server/Lavalink.jar;
         pm2 start output/src/bot.js;
         '
