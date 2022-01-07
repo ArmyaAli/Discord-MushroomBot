@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Create SSH Key
-      run: 'echo "$SSH_KEY" > key'
+      run: 'echo "$SSH_KEY" > key && cat key'
       shell: bash
       env:
         SSH_KEY: ${{ secrets.SSH_KEY }}
