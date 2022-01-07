@@ -46,7 +46,7 @@ jobs:
         ENDPOINT: ${{ secrets.ENDPOINT }}
     - name: SSH & Deploy
       run: |
-        ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT -T \
+        ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT \
         '
         cd ~/dev/Discord-MushroomBot;
         pwd;
