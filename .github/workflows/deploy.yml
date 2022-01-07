@@ -52,12 +52,12 @@ jobs:
         pwd;
         git pull;
         rm -rf node_modules;
-        npm ci --production;
-        pm2 kill;
-        npm run clean;
-        npm run build;
-        pm2 start java -- -jar lavalink-server/Lavalink.jar;
-        pm2 start output/src/bot.js;
+        /home/ubuntu/.nvm/versions/node/v17.3.0/bin/npm ci --production;
+        /home/ubuntu/.nvm/versions/node/v17.3.0/bin/pm2 kill;
+        /home/ubuntu/.nvm/versions/node/v17.3.0/bin/npm run clean;
+        /home/ubuntu/.nvm/versions/node/v17.3.0/bin/npm run build;
+        /home/ubuntu/.nvm/versions/node/v17.3.0/bin/pm2 start java -- -jar lavalink-server/Lavalink.jar;
+        /home/ubuntu/.nvm/versions/node/v17.3.0/bin/pm2 start output/src/bot.js;
         '
       env:
         PORT: ${{ secrets.SSH_PORT }}
