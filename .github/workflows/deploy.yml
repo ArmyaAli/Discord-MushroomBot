@@ -49,6 +49,7 @@ jobs:
         ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT \
         '
         cd ~/dev/Discord-MushroomBot;
+        pwd;
         git pull;
         rm -rf node_modules;
         npm ci --production;
