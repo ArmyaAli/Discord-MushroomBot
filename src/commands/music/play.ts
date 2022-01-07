@@ -69,7 +69,7 @@ const command = {
 
             message.reply(`Adding ${res?.tracks[0]?.title} to the Queue.`);
         } catch (err) {
-            message.reply(`there was an error while searching: ${(err as Error).message}`);
+            message.reply(`There was an error while searching: ${(err as Error).message}`);
         }
     }
 }
