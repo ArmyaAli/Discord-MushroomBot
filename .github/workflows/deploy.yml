@@ -48,8 +48,8 @@ jobs:
       run: |
         ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT \
         '
-        bash --rcfile ~/.bashrc;
         cd ~/dev/Discord-MushroomBot;
+        bash;
         pwd;
         git pull;
         rm -rf node_modules;
