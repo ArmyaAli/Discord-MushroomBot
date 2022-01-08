@@ -51,6 +51,7 @@ jobs:
         bash -i -c \
         "
         cd ~/dev/Discord-MushroomBot;
+        git checkout prod;
         git pull;
         rm -rf node_modules;
         npm ci --production;
