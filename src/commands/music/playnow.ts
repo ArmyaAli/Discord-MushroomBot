@@ -18,6 +18,17 @@ const command = {
         let query = args.join(" ").split('&')[0];
         try {
             let res = await Manager.search(query, message.author);
+
+            switch (res.loadType) {
+                case "LOAD_FAILED":
+                    throw res.exception;
+                case "NO_MATCHES":
+                    message.reply("there was no tracks found with that query.");
+                    return
+                case "PLAYLIST_LOADED": // Create the player 
+                    message.reply("playnow command does not support playlists! Use play command.")
+                    return;
+            }
             // Create the player 
             const player = Manager.create({
                 guild: message?.guild.id,
