@@ -24,7 +24,7 @@ const command = {
                 voiceChannel: message?.member?.voice?.channel?.id,
                 textChannel: message?.channel?.id,
             });
-
+            player.connect();
             player.play(res.tracks[0]);
         } catch (err) {
             message.reply(`There was an error while searching: ${(err as Error).message}`);
