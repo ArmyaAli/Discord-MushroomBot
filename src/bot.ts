@@ -37,12 +37,17 @@ Client.on('voiceStateUpdate', async (oldState, newState) => {
             if (textChannelId) {
                 const textChannel = oldState?.guild.channels.cache.get(textChannelId) as TextChannel;
                 textChannel.send("Empty voice channel! Mushroom Bot leaving in 30 seconds~ (if still empty)!")
-            }
 
-            setTimeout(() => { 
-                if (!(size - 1))
-                    oldState?.guild?.me?.voice.disconnect("Empty voice channel");
-            }, 30000); 
+                setTimeout(() => {
+                    const s = oldState?.channel?.members?.size;
+                    if (s) {
+                        if (!(s - 1)) {
+                            textChannel.send("Leaving now!~")
+                            oldState?.guild?.me?.voice.disconnect("Empty voice channel");
+                        }
+                    }
+                }, 30000);
+            }
         }
     }
 });
