@@ -48,7 +48,7 @@ jobs:
       run: |
         ssh -t -o StrictHostKeyChecking=no -p $PORT -i key $USER@$ENDPOINT -t \
         '
-        bash -i -c 
+        bash -i -c \
         "
         cd ~/dev/Discord-MushroomBot;
         git pull;
