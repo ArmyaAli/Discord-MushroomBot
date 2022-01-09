@@ -3,3 +3,4 @@ output/
 *.log
 *.gz
 .env
+.env[A-z]*
