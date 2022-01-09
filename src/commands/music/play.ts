@@ -13,10 +13,22 @@ const command = {
         // Is there a search term
         if (!args.length && message) {
             message.reply("You must give me a URL or a search term.");
-            return false;
+            return;
         }
-        let query = args.join(" ").split('&')[0];
-        console.log(query)
+        let raw = args.join(" ").split('&');
+        let query = raw[0];
+        let index = -1;
+        for (const part of raw) {
+            const youtubePlaylistLinkFormat = "https://www.youtube.com/playlist?";
+            if (part.startsWith("list")) {
+                query = youtubePlaylistLinkFormat + part;
+            }
+
+            if (part.startsWith("index")) {
+                index = parseInt(part.split('=')[1]);
+            }
+        }
+        console.log(query);
         try {
             let res = await Manager.search(query, message.author);
 
@@ -24,7 +36,7 @@ const command = {
                 case "LOAD_FAILED":
                     throw res.exception;
                 case "NO_MATCHES":
-                    message.reply("there was no tracks found with that query.");
+                    message.reply("There was no tracks found with that query.");
                     return
                 case "PLAYLIST_LOADED": // Create the player 
                     const player = Manager.create({
@@ -32,14 +44,14 @@ const command = {
                         voiceChannel: message?.member?.voice?.channel?.id,
                         textChannel: message?.channel?.id,
                     });
-                    
-                    const track = res.tracks[0];
+
+                    const track = index != -1 ? res.tracks[index-1] : res.tracks[0];
 
                     if (track) {
                         if (!player.playing && !player.paused && !player.queue.size) {
                             player.connect();
                             player.play(track);
-                            populateQueue(message, player, res.tracks.slice(1));
+                            populateQueue(message, player, index != -1 ? res.tracks.slice(index) : res.tracks.slice(1));
                         } else {
                             populateQueue(message, player, res.tracks);
                         }
@@ -63,7 +75,7 @@ const command = {
 
             // Checks if the client should play the track if it's the first one added
             if (!player.playing && !player.paused && !player.queue.size) {
-                player.play()
+                player.play();
                 return
             }
 
