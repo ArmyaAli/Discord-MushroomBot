@@ -15,7 +15,7 @@ const command = {
         }
         if (args.length > 0 && !/\d+/.test(args[0])) {
             message.reply("Skip command can only take a number argument!");
-            return
+            return;
         }
 
         const player = Manager.create({
