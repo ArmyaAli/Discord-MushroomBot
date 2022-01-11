@@ -52,4 +52,4 @@ Client.on('voiceStateUpdate', async (oldState, newState) => {
     }
 });
 
-Client.login(BOT_TOKEN);
+Client.login(BOT_TOKEN).catch(error => console.log)
