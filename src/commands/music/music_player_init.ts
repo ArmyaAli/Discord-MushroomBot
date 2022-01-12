@@ -4,11 +4,8 @@ import { Manager, Client, Commands } from "../../config";
 Manager.on("nodeConnect", node => console.log(`Node ${node.options.identifier} connected`));
 Manager.on("nodeDisconnect", node => console.log(`Node disconnect`));
 Manager.on("playerMove", (player, oldChannel, newChannel) => {
-    if(newChannel === null) {
-        // we can just pause the player till the bot is in a new channel
-        console.log(oldChannel, newChannel)
+    if(newChannel === null) 
         player.destroy();
-    } 
 });
 
 Manager.on("nodeError", (node, error) => console.log(`Node ${node.options.identifier} had an error: ${error.message}`))
