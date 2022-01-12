@@ -28,7 +28,6 @@ const command = {
                 index = parseInt(part.split('=')[1]);
             }
         }
-        console.log(query);
         try {
             let res = await Manager.search(query, message.author);
 
