@@ -22,14 +22,12 @@ if (TOKEN && CLIENT_ID && GUILD_ID) {
             for (const filePath of commandFiles) {
                 const command = await import(filePath);
                 if (command?.default?.data) {
-                    console.log(command?.default?.data)
                     commands.push(command?.default?.data?.toJSON());
                 }
             }
 
             if (commands.length > 0) {
                 console.log('Started refreshing application (/) commands.');
-                console.log(commands);
                 await rest.put(
                     Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), 
                     { body: commands },
