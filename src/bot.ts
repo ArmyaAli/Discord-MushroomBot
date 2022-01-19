@@ -6,7 +6,12 @@ Client.on("raw", (d) => {
 });
 
 Client.on('ready', () => {
-    Manager.init(Client?.user?.id);
+    try {
+        Manager.init(Client?.user?.id);
+
+    } catch(error) {
+        console.log(error);
+    }
     console.log(`Logged in as ${Client?.user?.tag}`);
 });
 
